@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -11,7 +12,7 @@ public class Player : MonoBehaviour {
 	private float force;
 	private float torque; //angular speed 
 	public Rigidbody rb;
-
+	public GameObject mainMenu;
 	public StartMenu startMenu;
 
 
@@ -36,7 +37,14 @@ public class Player : MonoBehaviour {
 			return;
 		}
 
-	
+
+
+		if (transform.position.y <= -3) {
+			mainMenu.transform.GetChild (1).GetComponent<UnityEngine.UI.Text> ().text = "Game Over";
+			startMenu.setPlaying (false);
+			StartCoroutine (Reset ());
+
+		}
 
 		if (Input.GetKey(KeyCode.W)) {
 			rb.AddForce (Vector3.left * force );
@@ -44,11 +52,6 @@ public class Player : MonoBehaviour {
 
 		}
 
-		/*if (Input.GetKey (KeyCode.S)) {
-			rb.AddForce (-Vector3.left * force );
-			rb.AddTorque(-new Vector3(0,0,torque));
-
-		}*/
 		if (Input.GetKey (KeyCode.A)) {
 			rb.AddForce (-Vector3.forward * force );
 			rb.AddTorque(-new Vector3(torque,0,0));
@@ -71,6 +74,13 @@ public class Player : MonoBehaviour {
 	public int getCoins(){
 
 		return coins;
+	}
+
+	IEnumerator Reset(){
+
+		yield return new WaitForSeconds(5f);
+		SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex) ;
+
 	}
 
 

@@ -11,6 +11,7 @@ public class EnemyMaster : MonoBehaviour {
 	private GameObject[] enemies;
 
 	public GameObject mainMenu;
+	public StartMenu startMenu;
 
 	private int currentEnemy;
 	private int numEnemies;
@@ -32,7 +33,7 @@ public class EnemyMaster : MonoBehaviour {
 		numEnemies = 200;
 		enemies = new GameObject[numEnemies];
 
-		//pawnEnemy ();
+
 
 
 	}
@@ -48,11 +49,12 @@ public class EnemyMaster : MonoBehaviour {
 
 		if (enemies[currentEnemy] !=null && (Mathf.Abs(enemies [currentEnemy].transform.position.x - player.transform.position.x) <= 4.0) && (Mathf.Abs(enemies [currentEnemy].transform.position.z - player.transform.position.z) <= 4.0)) {
 
-			mainMenu.transform.GetChild (1).gameObject.SetActive (true);
+			mainMenu.transform.GetChild (1).GetComponent<UnityEngine.UI.Text> ().text = "Game Over";
+			startMenu.setPlaying (false);
+			StartCoroutine (Reset ());
 
 
-
-			SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex) ;
+		
 		}
 
 
@@ -83,15 +85,13 @@ public class EnemyMaster : MonoBehaviour {
 		currentEnemyLocation =  new Vector3 (currentEnemyLocation.x - Random.Range (0+spawnRange, 2*spawnRange), 2, Random.Range (-7, 7));
 		enemies [currentEnemy] = (GameObject)Instantiate (enemy, currentEnemyLocation,transform.rotation);
 		
+	}
 
 
+	IEnumerator Reset(){
 
-
-
-	
-
-
-
+		yield return new WaitForSeconds(5f);
+		SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex) ;
 
 	}
 

@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour {
 	void Awake () {
 
 		playerScript = playerScript.GetComponent<Player> ();
-		transform.GetChild (1).gameObject.SetActive (false);
+
 	}
 	
 	// Update is called once per frame
